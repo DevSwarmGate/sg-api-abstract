@@ -1,5 +1,3 @@
-require('./jquery_ajax');
-
 module.exports = class SGApi_abstract{
     constructor(token,mname){
         this._token = token;
@@ -21,30 +19,40 @@ module.exports = class SGApi_abstract{
         let _this = this,
             xhr = new XMLHttpRequest();
 
+        let parse = function(){
+            let res = '';
+            for (let key in dataObj.data) {
+                res += encodeURIComponent(key)+"="+encodeURIComponent(dataObj.data[key])+"&";
+            }
+            return res.substring(0,res.length-1);
+        };
+
         if(_this._debugMode){
             console.log(dataObj.method,url,JSON.stringify(dataObj.data));
         }
 
-        $.ajax({
-            type: dataObj.method,
-            url: url,
-            dataType: "json",
-            data:dataObj.data,
-            success: function(data) 
-            {
+        xhr.open(dataObj.method,url);
+        
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                let responseData = JSON.parse(xhr.responseText);
+                
                 if(_this._debugMode){
-                    console.log(data);
+                    console.log(responseData);   
                 }
-
+                
                 if(cb !== undefined){
-                    cb(data);
+                    cb(responseData);
                 }
-            },
-            error:function(data)
-            {
-                console.error(data);
             }
-        });
+        };
+        
+        if(_this._debugMode){
+           console.log(`${dataObj.method}\n${url}\n${parse(dataObj.data)}`);   
+        }
+        xhr.send(parse(dataObj.data));
     }
 
     _makeUrl(url,dataObj){
