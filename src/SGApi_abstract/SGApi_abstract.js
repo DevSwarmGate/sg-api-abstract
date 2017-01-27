@@ -24,8 +24,8 @@ module.exports = class SGApi_abstract{
          let on_response = function(er, response, body) {
           if(er)
             throw er
-          if(result.ok)
-            console.log('Server ok, id = ' + result.id)
+   
+            console.log(response, body);
         }
          
         if(dataObj.method ===undefined){
