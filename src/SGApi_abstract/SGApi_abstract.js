@@ -20,7 +20,14 @@ module.exports = class SGApi_abstract{
     request(url,dataObj,cb){
         let _this = this,
             xhr = new XMLHttpRequest();
-
+        
+         let on_response = function(er, response, body) {
+          if(er)
+            throw er
+          if(result.ok)
+            console.log('Server ok, id = ' + result.id)
+        }
+         
         if(dataObj.method ===undefined){
             return console.log(`data need include http request Method`);
         }
@@ -31,12 +38,7 @@ module.exports = class SGApi_abstract{
 
         Request({method:dataObj.method, url:url, body:JSON.stringify(dataObj.data), json:true}, on_response)
  
-        let on_response = function(er, response, body) {
-          if(er)
-            throw er
-          if(result.ok)
-            console.log('Server ok, id = ' + result.id)
-        }
+       
        
         // xhr.open(dataObj.method,url);
         
