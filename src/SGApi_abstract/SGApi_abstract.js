@@ -21,7 +21,7 @@ module.exports = class SGApi_abstract{
         let _this = this,
             xhr = new XMLHttpRequest();
 
-        if(_this.debugMode){
+        if(_this._debugMode){
             console.log(dataObj.method,url,JSON.stringify(dataObj.data));
         }
 
@@ -32,7 +32,7 @@ module.exports = class SGApi_abstract{
             data:dataObj.data,
             success: function(data) 
             {
-                if(_this.debugMode){
+                if(_this._debugMode){
                     console.log(data);
                 }
 
