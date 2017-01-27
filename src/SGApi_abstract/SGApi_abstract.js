@@ -28,6 +28,9 @@ module.exports = class SGApi_abstract{
         }
 
         xhr.open(dataObj.method,url);
+        
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
         xhr.onreadystatechange = function() {
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 let responseData = JSON.parse(xhr.responseText);
