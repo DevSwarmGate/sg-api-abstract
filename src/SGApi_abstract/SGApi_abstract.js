@@ -1,3 +1,5 @@
+const Request = require('browser-request');
+
 module.exports = class SGApi_abstract{
     constructor(token,mname){
         this._token = token;
@@ -25,16 +27,22 @@ module.exports = class SGApi_abstract{
             dataObj.data = null;
         }
 
-        xhr.open(dataObj.method,url);
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                let responseData = JSON.parse(xhr.responseText);
-                if(cb !== undefined){
-                    cb(responseData);
-                }
-            }
-        };
-        xhr.send(dataObj.data);
+        request({method:dataObj.method, url:url, body:JSON.parse(xhr.responseText), json:true}, on_response)
+ 
+        let on_response(er, response, body) {
+          if(er)
+            throw er
+          if(result.ok)
+            console.log('Server ok, id = ' + result.id)
+        }
+        // xhr.open(dataObj.method,url);
+        // xhr.onreadystatechange = function() {
+        //     if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+        //         let responseData = JSON.parse(xhr.responseText);
+        //         
+        //     }
+        // };
+        // xhr.send(dataObj.data);
     }
 
     _makeUrl(url,dataObj){
