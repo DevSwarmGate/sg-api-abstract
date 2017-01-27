@@ -2,6 +2,7 @@ module.exports = class SGApi_abstract{
     constructor(token,mname){
         this._token = token;
         this._mname = mname;
+        this._debugMode = false;
     }
 
     getApiUrl(aname,urlData){
@@ -15,7 +16,8 @@ module.exports = class SGApi_abstract{
     }
 
     request(url,dataObj,cb){
-        let xhr = new XMLHttpRequest();
+        let _this = this,
+            xhr = new XMLHttpRequest();
 
         if(dataObj.method ===undefined){
             return console.log(`data need include http request Method`);
@@ -29,6 +31,11 @@ module.exports = class SGApi_abstract{
         xhr.onreadystatechange = function() {
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 let responseData = JSON.parse(xhr.responseText);
+                
+                if(_this._debugMode){
+                    console.log(responseData);   
+                }
+                
                 if(cb !== undefined){
                     cb(responseData);
                 }
