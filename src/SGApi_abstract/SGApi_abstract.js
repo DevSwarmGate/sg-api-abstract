@@ -4,6 +4,7 @@ module.exports = class SGApi_abstract{
     constructor(token,mname){
         this._token = token;
         this._mname = mname;
+        this._debugMode = false;
     }
 
     getApiUrl(aname,urlData){
@@ -17,7 +18,8 @@ module.exports = class SGApi_abstract{
     }
 
     request(url,dataObj,cb){
-        let xhr = new XMLHttpRequest();
+        let _this = this,
+            xhr = new XMLHttpRequest();
 
         if(dataObj.method ===undefined){
             return console.log(`data need include http request Method`);
@@ -35,14 +37,29 @@ module.exports = class SGApi_abstract{
           if(result.ok)
             console.log('Server ok, id = ' + result.id)
         }
+       
         // xhr.open(dataObj.method,url);
+        
+        // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
         // xhr.onreadystatechange = function() {
         //     if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
         //         let responseData = JSON.parse(xhr.responseText);
-        //         
+                
+        //         if(_this._debugMode){
+        //             console.log(responseData);   
+        //         }
+                
+        //         if(cb !== undefined){
+        //             cb(responseData);
+        //         }
         //     }
         // };
-        // xhr.send(dataObj.data);
+        
+        // if(_this._debugMode){
+        //    console.log(`${dataObj.method}\n${url}\n${JSON.stringify(dataObj.data)}`);   
+        // }
+        // xhr.send(JSON.stringify(dataObj.data));
     }
 
     _makeUrl(url,dataObj){
