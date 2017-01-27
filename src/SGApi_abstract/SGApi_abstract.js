@@ -29,7 +29,7 @@ module.exports = class SGApi_abstract{
             dataObj.data = null;
         }
 
-        request({method:dataObj.method, url:url, body:JSON.parse(xhr.responseText), json:true}, on_response)
+        Request({method:dataObj.method, url:url, body:JSON.parse(xhr.responseText), json:true}, on_response)
  
         let on_response = function(er, response, body) {
           if(er)
