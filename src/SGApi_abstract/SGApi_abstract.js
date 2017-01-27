@@ -21,20 +21,6 @@ module.exports = class SGApi_abstract{
         let _this = this,
             xhr = new XMLHttpRequest();
 
-        let on_response = function(er, response, body) {
-          if(er)
-            throw er
-            console.log(response,body);
-        }
-
-        if(dataObj.method ===undefined){
-            return console.log(`data need include http request Method`);
-        }
-
-        if(dataObj.data ===undefined || dataObj.data ===''){
-            dataObj.data = null;
-        }
-
         $.ajax({
           type: dataObj.method,
               url: url,
