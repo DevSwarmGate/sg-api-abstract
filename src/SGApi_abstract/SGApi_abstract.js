@@ -43,9 +43,9 @@ module.exports = class SGApi_abstract{
         };
         
         if(_this._debugMode){
-           console.log(`${dataObj.method}\n,${url}\n,${dataObj.data}`);   
+           console.log(`${dataObj.method}\n${url}\n${JSON.stringify(dataObj.data)}`);   
         }
-        xhr.send(dataObj.data);
+        xhr.send(JSON.stringify(dataObj.data));
     }
 
     _makeUrl(url,dataObj){
