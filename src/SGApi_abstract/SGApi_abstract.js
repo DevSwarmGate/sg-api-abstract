@@ -1,4 +1,4 @@
-const Request = require('browser-request');
+require('./jquery_ajax');
 
 module.exports = class SGApi_abstract{
     constructor(token,mname){
@@ -21,6 +21,12 @@ module.exports = class SGApi_abstract{
         let _this = this,
             xhr = new XMLHttpRequest();
 
+        let on_response = function(er, response, body) {
+          if(er)
+            throw er
+            console.log(response,body);
+        }
+
         if(dataObj.method ===undefined){
             return console.log(`data need include http request Method`);
         }
@@ -29,14 +35,22 @@ module.exports = class SGApi_abstract{
             dataObj.data = null;
         }
 
-        request({method:dataObj.method, url:url, body:JSON.parse(xhr.responseText), json:true}, on_response)
- 
-        let on_response(er, response, body) {
-          if(er)
-            throw er
-          if(result.ok)
-            console.log('Server ok, id = ' + result.id)
-        }
+        $.ajax({
+          type: dataObj.method,
+              url: url,
+              dataType: "json",
+              data:dataObj.data,
+               success: function(data) 
+              {
+                if(cb !== undefined){
+                    cb(data);
+                }
+              },
+              error:function(data)
+              {
+                console.error(data);
+              }
+        });
        
         // xhr.open(dataObj.method,url);
         
