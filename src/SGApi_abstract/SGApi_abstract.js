@@ -21,45 +21,30 @@ module.exports = class SGApi_abstract{
         let _this = this,
             xhr = new XMLHttpRequest();
 
+        if(_this.debug){
+            console.log(dataObj.method,url,JSON.stringify(dataObj.data));
+        }
+
         $.ajax({
-          type: dataObj.method,
-              url: url,
-              dataType: "json",
-              data:dataObj.data,
-               success: function(data) 
-              {
+            type: dataObj.method,
+            url: url,
+            dataType: "json",
+            data:dataObj.data,
+            success: function(data) 
+            {
+                if(_this.debug){
+                    console.log(data);
+                }
+
                 if(cb !== undefined){
                     cb(data);
                 }
-              },
-              error:function(data)
-              {
+            },
+            error:function(data)
+            {
                 console.error(data);
-              }
+            }
         });
-       
-        // xhr.open(dataObj.method,url);
-        
-        // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        
-        // xhr.onreadystatechange = function() {
-        //     if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-        //         let responseData = JSON.parse(xhr.responseText);
-                
-        //         if(_this._debugMode){
-        //             console.log(responseData);   
-        //         }
-                
-        //         if(cb !== undefined){
-        //             cb(responseData);
-        //         }
-        //     }
-        // };
-        
-        // if(_this._debugMode){
-        //    console.log(`${dataObj.method}\n${url}\n${JSON.stringify(dataObj.data)}`);   
-        // }
-        // xhr.send(JSON.stringify(dataObj.data));
     }
 
     _makeUrl(url,dataObj){
