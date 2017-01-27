@@ -31,7 +31,7 @@ module.exports = class SGApi_abstract{
 
         request({method:dataObj.method, url:url, body:JSON.parse(xhr.responseText), json:true}, on_response)
  
-        let on_response(er, response, body) {
+        let on_response = function(er, response, body) {
           if(er)
             throw er
           if(result.ok)
