@@ -50,9 +50,6 @@ module.exports = class SGApi_abstract{
             }
         };
         
-        if(_this._debugMode){
-           console.log(`${dataObj.method}\n${url}\n${parse(dataObj.data)}`);   
-        }
         xhr.send(parse(dataObj.data));
     }
 
