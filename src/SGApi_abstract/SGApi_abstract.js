@@ -1,17 +1,18 @@
 module.exports = class SGApi_abstract{
-    constructor(token,mname){
+    constructor(token,mname,host){
         this._token = token;
         this._mname = mname;
+        this._host = host !== undefined ? `http://${host}` : '';
         this._debugMode = false;
     }
 
     getApiUrl(aname,urlData){
-        let url = `/index.php?g=Wap&m=Apiresult&a=index&mname=${this._getProp('mname')}&aname=${aname}&token=${this._getProp('token')}`;
+        let url = `${this._host}/index.php?g=Wap&m=Apiresult&a=index&mname=${this._getProp('mname')}&aname=${aname}&token=${this._getProp('token')}`;
         return this._makeUrl(url,urlData);
     }
 
     getUrl(aname,urlData){
-        let url = `/index.php?g=Wap&m=Index&a=${aname}&token=${this._getProp('token')}`;
+        let url = `${this._host}/index.php?g=Wap&m=Index&a=${aname}&token=${this._getProp('token')}`;
         return this._makeUrl(url,urlData);
     }
 
